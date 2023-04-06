@@ -37,7 +37,7 @@ namespace Tamagotchi.Uteis
 
         public static void MenuDeAdocao()
         {
-            
+
             var baseUrl = "https://pokeapi.co/api/v2/pokemon/";
             Console.WriteLine("Adotando um mascotinhuuu");
             bool fechar = true;
@@ -48,8 +48,8 @@ namespace Tamagotchi.Uteis
                 var response = client.Execute(request);
 
                 ListaDePokemons resposta = JsonConvert.DeserializeObject<ListaDePokemons>(response.Content);
-                int colWidth = 20; 
-                int colCount = 4; 
+                int colWidth = 20;
+                int colCount = 4;
 
                 for (int i = 0; i < resposta.Results.Count; i += colCount)
                 {
@@ -57,7 +57,7 @@ namespace Tamagotchi.Uteis
                     {
                         string pokemonName = resposta.Results[i + j].Name;
                         Console.Write(pokemonName.PadRight(colWidth));
-                        Console.Write("\t"); 
+                        Console.Write("\t");
                     }
                     Console.WriteLine();
                 }
@@ -81,7 +81,7 @@ namespace Tamagotchi.Uteis
                                 break;
                             }
                         }
-                        if(adicionado == false)
+                        if (adicionado == false)
                         {
                             Console.WriteLine("Falha ao adicionar");
                             break;
@@ -107,7 +107,7 @@ namespace Tamagotchi.Uteis
                         if (resposta.Previous == null)
                         {
                             Console.WriteLine("Primeira Página");
-                                break;
+                            break;
                         }
                         else
                         {
@@ -128,9 +128,70 @@ namespace Tamagotchi.Uteis
 
         public static void MeusMascotes()
         {
+            var baseUrl = "https://pokeapi.co/api/v2/pokemon/";
+            Console.WriteLine("Meus bixinhuuuusss");
+            foreach (var pokemon in Usuario.listaDePokemons)
+            {
+                Console.WriteLine(pokemon.Name);
+
+            }
+
+            Console.WriteLine("1 - Ver informações do meu mascote");
+            Console.WriteLine("2 - Voltar ao menu inicial");
+            int opcao = int.Parse(Console.ReadLine());
+            Pokemon mascoteEscolhido = new Pokemon();
+            switch (opcao)
+            {
+                case 1:
+                    Console.WriteLine("Qual mascote deseja ver as informações ?");
+                    string mascote = Console.ReadLine();
+                    bool encontrado = false;
+                    foreach (var pokemon in Usuario.listaDePokemons)
+                    {
+                        if (mascote.Equals(pokemon.Name))
+                        {
+                            mascoteEscolhido = pokemon;
+                            baseUrl = pokemon.Url;
+                            encontrado = true;
+                            break;
+
+                        }
+                    }
+                    if(encontrado == false)
+                    {
+                        Console.WriteLine("Pokemon não encontrado!!");
+                        Menu.MeusMascotes();
+                        break;
+                    }
+                    else
+                    {
+                        RestClient client = new RestClient(baseUrl);
+                        var request = new RestRequest("", Method.Get);
+                        var response = client.Execute(request);
+
+                        var informacoesPokemon = JsonConvert.DeserializeObject<InfoPokemon>(response.Content);
+
+                        Console.WriteLine($"Nome: {mascoteEscolhido.Name}");
+                        Console.WriteLine($"Altura: {informacoesPokemon.Height}");
+                        Console.WriteLine($"Peso: {informacoesPokemon.Weight}");
+                        foreach (var ability in informacoesPokemon.Abilities)
+                        {
+                            Console.WriteLine($"Habilidade: {ability.Name}");
+                        }
+                        Menu.MeusMascotes();
+                        break;
+
+                    }
+
+
+
+                case 2:
+                    Menu.MenuInicial();
+                    break;
+
+            }
+
 
         }
     }
-
-
 }
