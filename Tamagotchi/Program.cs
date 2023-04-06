@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Tamagotchi.Pokemons;
 using static System.Net.WebRequestMethods;
 
 internal class Program
@@ -21,35 +22,19 @@ internal class Program
             var response = client.Execute(request);
 
             ListaDePokemons resposta = JsonConvert.DeserializeObject<ListaDePokemons>(response.Content);
+            foreach (var pokemon in resposta.Results)
+            {
+                Console.WriteLine(pokemon.Name);
+            }
             todos.Add(resposta);
             baseUrl = resposta.Next;
         }
 
-        foreach (var item in todos)
-        {
-            foreach (var pokemon in item.Results)
-            {
-                Console.WriteLine(pokemon.Name);
-            }
-        }
-
 
     }
 
-    public class ListaDePokemons
-    {
-        public int Count { get; set; }
-        public string Next { get; set; }
-        public string Previous { get; set; }
-        public List<Pokemon> Results { get; set; }
+    
 
-    }
-
-    public class Pokemon
-    {
-        public string Name { get; set; }
-        public string Url { get; set; }
-
-    }
+    
 
 }
