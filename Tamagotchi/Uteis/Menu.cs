@@ -176,7 +176,7 @@ namespace Tamagotchi.Uteis
                         Console.WriteLine($"Peso: {informacoesPokemon.Weight}");
                         foreach (var ability in informacoesPokemon.Abilities)
                         {
-                            Console.WriteLine($"Habilidade: {ability.Name}");
+                            Console.WriteLine($"Habilidade: {ability.Ability.name}");
                         }
                         Menu.MeusMascotes();
                         break;

@@ -10,7 +10,7 @@ namespace Tamagotchi.Pokemons
     {
         public int Height { get; set; }
         public int Weight { get; set; }
-        public List<Ability> Abilities { get; set; }
+        public List<InfoHabilidades> Abilities { get; set; }
 
     }
 }

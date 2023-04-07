@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Tamagotchi.Pokemons
 {
-    public class Ability
+    public class InfoHabilidades
     {
-        public string name { get; set; }
-        public string url { get; set; }
+        public Ability Ability { get; set; }
+        public bool is_hidden { get; set; }
+        public int slot { get; set; }
     }
 }
