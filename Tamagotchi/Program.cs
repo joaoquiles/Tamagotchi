@@ -5,8 +5,8 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Tamagotchi.Controller;
 using Tamagotchi.Pokemons;
-using Tamagotchi.Uteis;
 using static System.Net.WebRequestMethods;
 
 internal class Program

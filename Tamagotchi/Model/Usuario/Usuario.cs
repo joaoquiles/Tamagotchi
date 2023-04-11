@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tamagotchi.Pokemons;
 
-namespace Tamagotchi.Uteis
+namespace Tamagotchi.Model.Usuario
 {
     public static class Usuario
     {

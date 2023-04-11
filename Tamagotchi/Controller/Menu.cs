@@ -5,41 +5,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tamagotchi.Model.Usuario;
 using Tamagotchi.Pokemons;
+using Tamagotchi.View;
 
-namespace Tamagotchi.Uteis
+namespace Tamagotchi.Controller
 {
     public static class Menu
     {
         public static void MenuInicial()
         {
-            Console.WriteLine("Bemmm vindooo ao centro Tamagotchi!!");
-            Console.WriteLine("Você deseja: ");
-            Console.WriteLine("1 - Adotar um mascote");
-            Console.WriteLine("2 - Ver seus Mascotes");
-            Console.WriteLine("3 - Sair");
-
+            Mensagens.BoasVindas();
             int opcao = int.Parse(Console.ReadLine());
 
             switch (opcao)
             {
                 case 1:
-                    Menu.MenuDeAdocao();
+                    MenuDeAdocao();
                     break;
                 case 2:
-                    Menu.MeusMascotes();
+                    MeusMascotes();
                     break;
                 case 3:
-                    Console.WriteLine("Tchauzinhuuu");
+                    Mensagens.Sair();
                     break;
             }
         }
 
         public static void MenuDeAdocao()
         {
-
+            Mensagens.BoasVindasAdocao();
             var baseUrl = "https://pokeapi.co/api/v2/pokemon/";
-            Console.WriteLine("Adotando um mascotinhuuu");
             bool fechar = true;
             while (fechar)
             {
@@ -61,15 +57,12 @@ namespace Tamagotchi.Uteis
                     }
                     Console.WriteLine();
                 }
-                Console.WriteLine("1 - Escolher mascote");
-                Console.WriteLine("2 - Próxima pagina");
-                Console.WriteLine("3 - Página Anterior");
-                Console.WriteLine("4 - Voltar para o menu");
+                Mensagens.OpcoesDeAdocao();
                 int opcao = int.Parse(Console.ReadLine());
                 switch (opcao)
                 {
                     case 1:
-                        Console.WriteLine("Nome do mascote escolhido: ");
+                        Mensagens.EscolherMascote();
                         string mascoteEscolhido = Console.ReadLine();
                         bool adicionado = false;
                         foreach (var pokemon in resposta.Results)
@@ -83,18 +76,18 @@ namespace Tamagotchi.Uteis
                         }
                         if (adicionado == false)
                         {
-                            Console.WriteLine("Falha ao adicionar");
+                            Mensagens.FalhaAoAdicionar();
                             break;
                         }
                         else
                         {
-                            Console.WriteLine("Adicionado com sucesso");
+                            Mensagens.AdicionadoComSucesso();
                             break;
                         }
                     case 2:
                         if (resposta.Next == null)
                         {
-                            Console.WriteLine("Última Página");
+                            Mensagens.UltimaPagina();
                             break;
                         }
                         else
@@ -106,7 +99,7 @@ namespace Tamagotchi.Uteis
                     case 3:
                         if (resposta.Previous == null)
                         {
-                            Console.WriteLine("Primeira Página");
+                            Mensagens.PrimeiraPagina();
                             break;
                         }
                         else
@@ -119,7 +112,7 @@ namespace Tamagotchi.Uteis
                         break;
                 }
             }
-            Menu.MenuInicial();
+            MenuInicial();
 
 
 
@@ -128,22 +121,21 @@ namespace Tamagotchi.Uteis
 
         public static void MeusMascotes()
         {
+            Mensagens.BoasVindasMeusMascotes();
             var baseUrl = "https://pokeapi.co/api/v2/pokemon/";
-            Console.WriteLine("Meus bixinhuuuusss");
             foreach (var pokemon in Usuario.listaDePokemons)
             {
                 Console.WriteLine(pokemon.Name);
 
             }
 
-            Console.WriteLine("1 - Ver informações do meu mascote");
-            Console.WriteLine("2 - Voltar ao menu inicial");
+            Mensagens.OpcoesMeusMascotes();
             int opcao = int.Parse(Console.ReadLine());
             Pokemon mascoteEscolhido = new Pokemon();
             switch (opcao)
             {
                 case 1:
-                    Console.WriteLine("Qual mascote deseja ver as informações ?");
+                    Mensagens.EscolherMascote();
                     string mascote = Console.ReadLine();
                     bool encontrado = false;
                     foreach (var pokemon in Usuario.listaDePokemons)
@@ -157,10 +149,10 @@ namespace Tamagotchi.Uteis
 
                         }
                     }
-                    if(encontrado == false)
+                    if (encontrado == false)
                     {
-                        Console.WriteLine("Pokemon não encontrado!!");
-                        Menu.MeusMascotes();
+                        Mensagens.MascoteNaoEncontrado();
+                        MeusMascotes();
                         break;
                     }
                     else
@@ -178,7 +170,7 @@ namespace Tamagotchi.Uteis
                         {
                             Console.WriteLine($"Habilidade: {ability.Ability.name}");
                         }
-                        Menu.MeusMascotes();
+                        MeusMascotes();
                         break;
 
                     }
@@ -186,7 +178,7 @@ namespace Tamagotchi.Uteis
 
 
                 case 2:
-                    Menu.MenuInicial();
+                    MenuInicial();
                     break;
 
             }
